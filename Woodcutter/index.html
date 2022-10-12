@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="icon.png">
+        <title>Woodcutter</title>
+    </head>
+    
+    <body>
+        <div class="allcontent">
+            <div class="content">
+                <script>
+                    setInterval(lumberjackChop, 1)
+                    setInterval(cut, 1)
+                    setInterval(autosharpen, 150)
+                    setInterval(treeplant, 150)
+                    axestrength = 0;
+                    treefarmcount = 0;
+                    treefarmprice = 5000
+                    wood = 0;
+                    money = 0;
+                    planks = 0;
+                    totalchops = 0;
+                    axelevel = 0;
+                    lumberjackcount = 0
+                    lumberjackprice = 70
+                    axeupgradeprice = 50
+                    autosharpener = "no"
+                    sawmillcount = 0
+                    sawmillprice = 7500
+                    ljv = 1.003
+                    smv = 1.05
+                    tfv = 1.05
+                    trees = 1000000000
+                    sawmilltoggle = "OFF"
+                    document.getElementById("sawmilltoggle").innerHTML = sawmilltoggle
+
+                    
+                    
+
+                    function cut(){
+                        if(sawmilltoggle == "ON") {
+                            if(wood >= 1){
+                                if(wood >= 0.1*sawmillcount){
+                                    if(sawmillcount >= 1){
+                                        wood -= (0.1*sawmillcount)
+                                        document.getElementById("wood").innerHTML = Math.floor(wood)
+                                        planks += (0.2*sawmillcount)
+                                        document.getElementById("planks").innerHTML = Math.floor(planks)
+                                        }
+                                    else{
+                                        message = "You don't have a sawmill yet!"
+                                        document.getElementById("message").innerHTML = message
+                                        }
+                                    }
+                                
+                                }
+                                
+                            
+                            
+                            else{
+                                message = "You don't have any wood!"
+                                document.getElementById("message").innerHTML = message        
+                            }
+                        }
+                    }                  
+                    function lumberjackChop(){
+                        if(trees > 1){
+                            wood += (0.0075*lumberjackcount);
+                            document.getElementById("wood").innerHTML = Math.floor(wood);
+                            trees -= (0.0075*lumberjackcount);
+                            document.getElementById("trees").innerHTML = Math.floor(trees);
+                            totalchops += (0.0075*lumberjackcount)
+                            document.getElementById("totalchops").innerHTML = Math.floor(totalchops);
+                        }
+                        
+                    }              
+                    function treeplant(){
+                        if(trees > 1){
+                            trees += (50*treefarmcount);
+                            document.getElementById("trees").innerHTML = Math.floor(trees);
+                        }
+                        
+                    }       
+                    function buytreefarm(){
+                        {if(planks >= (treefarmprice)){
+                                treefarmcount += 1
+                                document.getElementById("treefarmcount").innerHTML = treefarmcount;
+                                planks -= treefarmprice
+                                document.getElementById("planks").innerHTML = Math.round(planks)
+                                message = "You have built a tree farm!"
+                                document.getElementById("message").innerHTML = message
+                                treefarmprice = (treefarmprice*tfv)
+                                document.getElementById("treefarmprice").innerHTML = Math.floor(treefarmprice)
+                               
+                            }
+                        else{
+                            message = "You don't have enough planks!"
+                            document.getElementById("message").innerHTML = message
+                            }
+                        }
+                    }   
+                    function autosharpen(){
+                        if (autosharpener == "yes") {
+                            if(axestrength <= 99){
+                            axestrength += 1;
+                            document.getElementById("axestrength").innerHTML = axestrength;}
+                            else{
+                                if(axestrength < 100){
+                                    axestrength = 100;
+                                    document.getElementById("axestrength").innerHTML = axestrength;
+                                }
+                            }
+                        }
+                    }
+                    function buy10lumberjack(){
+                        {if(money > (10*(lumberjackprice-0.1))){
+                                lumberjackcount += 10
+                                document.getElementById("lumberjackcount").innerHTML = lumberjackcount;
+                                money -= (10*lumberjackprice)
+                                document.getElementById("money").innerHTML = Math.round(money)
+                                message = "You have hired several lumberjacks!"
+                                document.getElementById("message").innerHTML = message
+                                lumberjackprice = (lumberjackprice*((ljv*ljv*ljv*ljv*ljv*ljv*ljv*ljv*ljv*ljv)))
+                                document.getElementById("lumberjackprice").innerHTML = Math.floor(lumberjackprice)
+                                tenlumberjackprice = (lumberjackprice*10)
+                                document.getElementById("tenlumberjackprice").innerHTML = Math.floor(tenlumberjackprice)
+
+                            }
+                        else{
+                            message = "You don't have enough money!"
+                            document.getElementById("message").innerHTML = message
+                            }
+                        }
+                    }
+                    function buylumberjack(){
+                        {if(money >= (lumberjackprice-0.1)){
+                                lumberjackcount += 1
+                                document.getElementById("lumberjackcount").innerHTML = lumberjackcount;
+                                money -= lumberjackprice
+                                document.getElementById("money").innerHTML = Math.round(money)
+                                message = "You have hired a lumberjack!"
+                                document.getElementById("message").innerHTML = message
+                                lumberjackprice = (lumberjackprice*ljv)
+                                document.getElementById("lumberjackprice").innerHTML = Math.floor(lumberjackprice)
+                                tenlumberjackprice = (lumberjackprice*10)
+                                document.getElementById("tenlumberjackprice").innerHTML = Math.floor(tenlumberjackprice)
+                            }
+                        else{
+                            message = "You don't have enough money!"
+                            document.getElementById("message").innerHTML = message
+                            }
+                        }
+                    }
+                    function chop() {
+                        if(trees >= 1){
+                            if(axestrength > 0){
+                                totalchops += 1
+                                document.getElementById("totalchops").innerHTML = totalchops
+                                wood += (1 + (2*axelevel*(axestrength/50)) + (axestrength/33.33));
+                                trees -= (1);
+                                document.getElementById("axestrength").innerHTML = axestrength;
+                                document.getElementById("trees").innerHTML = Math.floor(trees);
+                                document.getElementById("wood").innerHTML = Math.floor(wood);
+                                message = ""
+                                document.getElementById("message").innerHTML = message;
+                                if(axestrength >= (6 - (axelevel/2))){
+                                    axestrength -= (6 - (axelevel/2))
+                                    document.getElementById("axestrength").innerHTML = axestrength}
+                                else{
+                                    axestrength = 0
+                                    document.getElementById("axestrength").innerHTML = axestrength
+                                }
+                            }
+                            else{message = "Your axe is too dull to chop any wood."
+                            document.getElementById("message").innerHTML = message
+                            }
+                        }
+                        else{
+                            message = "There are no more trees! Congrats, you have ruined the ecosystem."
+                            document.getElementById("message").innerHTML = message
+
+                        }
+                    }; // this creates a function which is called "chop" and will add to the value "wood."               
+                    function sharpen() {
+                        message = ""
+                        document.getElementById("message").innerHTML = message;
+                        if(axestrength >= 75){
+                            axestrength = 100
+                            message = "Your axe is as sharp as possible."
+                            document.getElementById("message").innerHTML = message
+                            document.getElementById("axestrength").innerHTML = Math.round(axestrength)}
+                        else{
+                        axestrength += 25
+                        document.getElementById("axestrength").innerHTML = Math.round(axestrength)
+                        message = "You sharpen your axe. Good for woodcutting."
+                        document.getElementById("message").innerHTML = message}
+            
+                    };
+                    function messagereset(){
+                        message = ""
+                    }
+                    function sellwood(){
+                        if(wood >= 1){
+                            wood -= 1
+                            document.getElementById("wood").innerHTML = Math.floor(wood);
+                            money += 1
+                            document.getElementById("money").innerHTML = Math.floor(money);
+    
+                        }
+                        else{
+                            message = "You don't have enough wood!"
+                            document.getElementById("message").innerHTML = message;
+                        }
+                    
+                    }
+                    function sell10wood(){
+                        if(wood >= 10){
+                            wood -= 10
+                            document.getElementById("wood").innerHTML = Math.floor(wood);
+                            money += 10
+                            document.getElementById("money").innerHTML = Math.floor(money);
+    
+                        }
+                        else{
+                            message = "You don't have enough wood!"
+                            document.getElementById("message").innerHTML = message;
+                        }
+                    
+                    }
+                    function sell100wood(){
+                        if(wood >= 100){
+                            wood -= 100
+                            document.getElementById("wood").innerHTML = Math.floor(wood);
+                            money += 100
+                            document.getElementById("money").innerHTML = Math.floor(money);
+    
+                        }
+                        else{
+                            message = "You don't have enough wood!"
+                            document.getElementById("message").innerHTML = message;
+                        }
+                    
+                    }
+                    function sellallwood(){
+                        
+                        money += wood
+                        wood = 0
+                        document.getElementById("wood").innerHTML = Math.floor(wood);
+                        document.getElementById("money").innerHTML = Math.floor(money);
+                    }
+                    function sellplanks(){
+                        if(planks > 1){
+                            planks -= 1
+                            document.getElementById("planks").innerHTML = Math.floor(planks);
+                            money += 5
+                            document.getElementById("money").innerHTML = Math.floor(money);
+    
+                        }
+                        else{
+                            message = "You don't have enough planks!"
+                            document.getElementById("message").innerHTML = message;
+                        }
+                    
+                    }
+                    function sell10planks(){
+                        if(planks >= 10){
+                            planks -= 10
+                            document.getElementById("planks").innerHTML = Math.floor(planks);
+                            money += 50
+                            document.getElementById("money").innerHTML = Math.floor(money);
+    
+                        }
+                        else{
+                            message = "You don't have enough planks!"
+                            document.getElementById("message").innerHTML = message;
+                        }
+                    
+                    }
+                    function sell100planks(){
+                        if(planks >= 100){
+                            planks -= 100
+                            document.getElementById("planks").innerHTML = Math.floor(planks);
+                            money += 500
+                            document.getElementById("money").innerHTML = Math.floor(money);
+    
+                        }
+                        else{
+                            message = "You don't have enough planks!"
+                            document.getElementById("message").innerHTML = message;
+                        }
+                    
+                    }
+                    function sellallplanks(){
+                        
+                        money += (5*planks)
+                        planks = 0
+                        document.getElementById("planks").innerHTML = Math.floor(planks);
+                        document.getElementById("money").innerHTML = Math.floor(money);
+                    }
+                    function upgradeaxe(){
+                        if(axelevel >= 10){
+                            message = "Your axe is at the maximum level!"
+                            document.getElementById("message").innerHTML = message
+                            axeupgradeprice = "MAX"
+                            document.getElementById("axeupgradeprice").innerHTML = axeupgradeprice
+                        }
+                        else{
+                            if(money >= axeupgradeprice){
+                                axelevel += 1
+                                document.getElementById("axelevel").innerHTML = axelevel;
+                                money -= axeupgradeprice
+                                document.getElementById("money").innerHTML = Math.round(money)
+                                message = "Your axe has been upgraded!"
+                                document.getElementById("message").innerHTML = message
+                                axeupgradeprice = (axeupgradeprice*1.25)
+                                document.getElementById("axeupgradeprice").innerHTML = Math.ceil(axeupgradeprice)
+
+                            }
+                            else{
+                                message = "You don't have enough money!"
+                                document.getElementById("message").innerHTML = message
+                            }
+                        }
+                    }
+                    function rich(){
+                        wood += 100000000000000000000000
+                        document.getElementById("wood").innerHTML = Math.round(wood)
+                    }
+                    function axemax(){
+                        axelevel = 10
+                        document.getElementById("axelevel").innerHTML =  axelevel
+                    }
+                    function buyautosharpener(){
+                        if(money >= 750){
+                            if(autosharpener == "no"){
+                                autosharpener = "yes"
+                                document.getElementById("autosharpener").innerHTML = autosharpener
+                                money -= 750
+                                document.getElementById("money").innerHTML = Math.floor(money)
+                                autosharpenerbought = "MAX"
+                                document.getElementById("autosharpenerbought").innerHTML = autosharpenerbought}
+                            else{
+                                message = "You already have an autosharpener!"
+                                document.getElementById("message").innerHTML = message
+                            }}
+
+                        else{
+                            message = "You don't have enough money!"
+                            document.getElementById("message").innerHTML = message
+                        }
+
+                    }
+                    function buysawmill(){
+                        if(money >= sawmillprice){
+                                money -= sawmillprice
+                                document.getElementById("money").innerHTML = Math.floor(money)
+                                sawmillcount += 1
+                                document.getElementById("sawmillcount").innerHTML = sawmillcount
+                                sawmillprice = (smv*sawmillprice)
+                                document.getElementById("sawmillprice").innerHTML = Math.floor(sawmillprice)
+                                message = "Sawmills cut wood into planks."
+                                document.getElementById("message").innerHTML = message}
+
+                        else{
+                            message = "You don't have enough money!"
+                            document.getElementById("message").innerHTML = message
+                        }
+
+                    }
+                    function sawmillbutton(){
+                        if(sawmillcount > 0){
+                            if(sawmilltoggle == "OFF"){
+                                sawmilltoggle = "ON"
+                                document.getElementById("sawmilltoggle").innerHTML = sawmilltoggle}
+                            else{
+                                sawmilltoggle = "OFF"
+                             document.getElementById("sawmilltoggle").innerHTML = sawmilltoggle}   
+                                  
+                            
+                        }
+                        else{
+                         message = "You don't have any sawmills to turn on!"
+                         document.getElementById("message").innerHTML = message   
+                        }
+
+                    }
+              </script>
+            </div>
+
+            <div class="woodcutterversion">
+                <img src="icontiny.png" alt="Axe"> Woodcutter Build 0.4.5 (The Brooke Update)
+                <br>Patch notes have been moved to the bottom of the page.
+                </div>
+
+            <div class="mainmenu">
+                
+                <br><h2>Wood: <a id="wood">0</a></h2>
+                <h4>Planks: <a id="planks">0</a></h4>
+                <h4>Trees: <a id="trees">10000000</a></h4>
+                
+                
+                
+                
+                <button type="button" onclick="chop()">Chop</button> 
+                <button type="button" onclick="sharpen()">Sharpen Axe</button> 
+                <br>
+                <br>Total Chops: <a id="totalchops">0</a>
+                
+                <br>Axe Sharpness: <a id="axestrength">0</a>%
+                <br>Axe Level: <a id="axelevel">0</a>
+                <br>Lumberjacks: <a id="lumberjackcount">0</a>
+                <br>Autosharpener: <a id="autosharpener">no</a>
+                <br>Sawmills: <a id="sawmillcount">0</a>
+                <br>Sawmills: 
+                <button type="button" onclick="sawmillbutton()"><a id="sawmilltoggle">OFF</a></button>
+                <br>Tree Farms: <a id="treefarmcount">0</a>
+                
+                
+                
+                </a>
+                </div>
+            <div class="marketplace">
+                <br>&nbsp;&nbsp;---------------
+                <br>&nbsp;&nbsp;Marketplace
+                <br>&nbsp;&nbsp;---------------
+                <br>Money: <a id="money">$0</a>
+                <br>Sell Wood &nbsp;<button type="button" onclick="sellwood()">1</button> 
+                <button type="button" onclick="sell10wood()">10</button> 
+                <button type="button" onclick="sell100wood()">100</button>
+                <button type="button" onclick="sellallwood()">ALL</button> 
+                <br>Sell Planks <button type="button" onclick="sellplanks()">1</button> 
+                <button type="button" onclick="sell10planks()">10</button> 
+                <button type="button" onclick="sell100planks()">100</button>
+                <button type="button" onclick="sellallplanks()">ALL</button> 
+                <br>
+                <br>Upgrade Axe &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" onclick="upgradeaxe()">$<a id="axeupgradeprice">50</a></button> 
+                <br>Buy Autosharpener &nbsp;&nbsp;
+                <button type="button" onclick="buyautosharpener()"><a id="autosharpenerbought">$750</a></button> 
+                <br>Buy Sawmill &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" onclick="buysawmill()">$<a id="sawmillprice">7500</a></button> 
+                <br>Hire Lumberjack &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" onclick="buylumberjack()">$<a id="lumberjackprice">75</a></button>
+                <br>Hire 10 Lumberjack &nbsp;
+                <button type="button" onclick="buy10lumberjack()">$<a id="tenlumberjackprice">750</a></button>  
+                <br>Build Tree Farm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" onclick="buytreefarm()"><a id="treefarmprice">5000</a> planks</button>  
+                
+                <br>---------------------------
+                <script>
+                    function showpatchnotes(){
+                            patchnotestitle = "0.4.5: The Brooke Update"
+                            document.getElementById("patchnotestitle").innerHTML = patchnotestitle
+                            document.getElementById("patchnotestitle").style.textDecoration = "underline";
+                            patchnotes1 = "- Balanced market: Lumberjack price increases significantly slower. Set base price to 75 (previously 100)."
+                            document.getElementById("patchnotes1").innerHTML = patchnotes1
+                            patchnotes2 = "- Moved patch notes to bottom. Emboldened money counter. Catered to Brooke."
+                            document.getElementById("patchnotes2").innerHTML = patchnotes2
+                            patchnotes3 = "- Fixed various bugs regarding text display and accidental fractional prices."
+                            document.getElementById("patchnotes3").innerHTML = patchnotes3
+                        }
+                    function hidepatchnotes(){
+                        patchnotestitle = ""
+                            document.getElementById("patchnotestitle").innerHTML = patchnotestitle
+                            patchnotes1 = ""
+                            document.getElementById("patchnotes1").innerHTML = patchnotes1
+                            patchnotes2 = ""
+                            document.getElementById("patchnotes2").innerHTML = patchnotes2
+                            patchnotes3 = ""
+                            document.getElementById("patchnotes3").innerHTML = patchnotes3
+                    }
+                </script>
+                <br>
+            
+                    <a id="message">Welcome to Woodcutter! This little HTML game was coded in the course of about 2 hours by myself, Caleb Norris! 
+                        <br> Tab icon and logo are by ColourCreatype on freeicons.io! 
+                        <br>
+                        <br> Patch Notes 
+                        <br><button type="button" onclick="showpatchnotes()">Show</button> <button type="button" onclick="hidepatchnotes()">Hide</button> 
+                        <br><a id="patchnotestitle"></a>
+                        <br><a id="patchnotes1"></a>
+                        <br><a id="patchnotes2"></a>
+                        <br><a id="patchnotes3"></a>
+
+                        
+                </div>
+        </div>
+
+    </body></html>
